@@ -23,6 +23,6 @@ public class CreateArticleModel : PageModel
             command.ShortDescription, command.Body);
         _context.Articles.Add(article);
         _context.SaveChanges();
-        ViewData["success"] = "مقاله با موفقیت ذخیره شده";
+        TempData["success"] = "مقاله با موفقیت ذخیره شده";
     }
 }
