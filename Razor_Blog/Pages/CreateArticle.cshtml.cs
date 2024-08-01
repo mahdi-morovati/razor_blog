@@ -23,7 +23,7 @@ public class CreateArticleModel : PageModel
         
     }
 
-    public void OnPost(CreateArticle command)
+    public IActionResult OnPost(CreateArticle command)
     {
         if (ModelState.IsValid)
         {
@@ -32,10 +32,13 @@ public class CreateArticleModel : PageModel
             _context.Articles.Add(article);
             _context.SaveChanges();
             SuccessMessage = "مقاله با موفقیت ذخیره شده";
+            return RedirectToPage("./Index");
         }
         else
         {
             ErrorMessage = "لطفا مقادیر خواسته شده را تکمیل نمایید";
+            return Page();
         }
+        
     }
 }
