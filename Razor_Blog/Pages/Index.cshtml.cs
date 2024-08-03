@@ -22,18 +22,32 @@ public class IndexModel : PageModel
     //     return Page();
     // }
 
+    
+    /**
+     * Use asp-page-handler="Delete" in html
+     */
     public void OnGet()
     {
-        Articles = _context.Articles.Select(x => new ArticleViewModel
-        {
-            Id = x.Id,
-            Title = x.Title,
-            Picture = x.Picture,
-            PictureAlt = x.PictureAlt,
-            PictureTitle = x.PictureTitle,
-            ShortDescription = x.ShortDescription,
-            // Body = x.Body,
-            // CreationDate = x.CreationDate,
-        }).OrderByDescending(x => x.Id).ToList();
+        Articles = _context.Articles
+            .Where(x => x.IsDeleted == false)
+            .Select(x => new ArticleViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Picture = x.Picture,
+                PictureAlt = x.PictureAlt,
+                PictureTitle = x.PictureTitle,
+                ShortDescription = x.ShortDescription,
+                // Body = x.Body,
+                // CreationDate = x.CreationDate,
+            }).OrderByDescending(x => x.Id).ToList();
+    }
+
+    public IActionResult OnGetDelete(int id)
+    {
+        var article = _context.Articles.First(x => x.Id == id);
+        article.IsDeleted = true;
+        _context.SaveChanges();
+        return RedirectToPage("./Index");
     }
 }
