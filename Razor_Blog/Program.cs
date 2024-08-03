@@ -30,4 +30,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+    // pass id as parameter in razor pages 
+// app.MapDefaultControllerRoute();  
+
 app.Run();
